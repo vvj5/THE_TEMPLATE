@@ -71,6 +71,7 @@ if yes?("Do you want some Bourbon, Neat & Bitters? ")
     CODE
   end
 end
+end
 
 # REACT
 if yes?("Do you want to use React? ")
