@@ -27,7 +27,7 @@ run "touch README.md"
 
 
 if yes?("Do you want some Bourbon, Neat & Bitters? ")
-  gem 'bourbon'
+    gem 'bourbon'
     gem 'neat'
     gem 'bitters'
 
@@ -70,8 +70,6 @@ if yes?("Do you want some Bourbon, Neat & Bitters? ")
     @import "typography";
     CODE
   end
-end
-end
 
 # REACT
 if yes?("Do you want to use React? ")
