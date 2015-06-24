@@ -1,13 +1,13 @@
-# Rails TIY template
+#Rails TIY template
 
-# Add heroku procfile
+#Add heroku procfile
 file('Procfile',  "web: bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}")
 
-# Add ruby version to gemfile
+#Add ruby version to gemfile
 ruby_version = ask("What is your ruby version? ")
 insert_into_file "Gemfile", "ruby '#{ruby_version}'", :after => "source 'https://rubygems.org'\n"
 
-# Add pg and puma gem
+#Add pg and puma gem
 gem 'pg'
 gem 'puma'
 
@@ -15,7 +15,7 @@ gem_group :production do
   gem 'rails_12factor'
 end
 
-# PRY & FAKER
+#PRY & FAKER
 gem_group :development, :test do
   gem 'pry' if yes?("Do you want to use Pry? ")
   gem 'faker'
@@ -71,13 +71,13 @@ if yes?("Do you want some Bourbon, Neat & Bitters? ")
     CODE
   end
 
-# REACT
+#REACT
 if yes?("Do you want to use React? ")
   gem 'react-rails'
   run 'rails g react:install'
 end
 
-# BCRYPT
+#BCRYPT
 if yes?("Do you want to use bcrypt? ")
   gem 'bcrypt'
 end
