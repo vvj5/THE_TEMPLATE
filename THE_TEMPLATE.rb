@@ -94,20 +94,6 @@ insert_into_file "Gemfile", "ruby '#{ruby_version}'", :after => "source 'https:/
     end
   end
 
-  puts(set_color'Running `rake db:test:prepare`',:blue,:bold)
-  run('rake db:test:prepare')
-
-#HEROKU
-  if get(set_color 'Would you like to create a new Heroku repo?', :magenta )
-      run('heroku create')
-
-    if get(set_color 'Would you like to push your repo to Heroku', :magenta )
-        git push: 'heroku master'
-        run('heroku run rake db:migrate')
-    end
-
-  end
-
 
 if get(set_color 'Would you like to create your db with `rake db:create`', :magenta)
   yes?(set_color 'Remember to declare your ruby version in your gem file.', :red,  :bold)
