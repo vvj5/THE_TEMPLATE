@@ -1,54 +1,33 @@
-VERSION = 'v1.9.2'
-def get(prompt)
-  yes?(prompt + ' (y/n) >')
-end
+# Rails TIY template
 
-gem 'hirb'
-gem 'kaminari'
+# Add heroku procfile
+file('Procfile',  "web: bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}")
 
-#HEROKU GEMS
+# Add ruby version to gemfile
+ruby_version = ask("What is your ruby version? ")
+insert_into_file "Gemfile", "ruby '#{ruby_version}'", :after => "source 'https://rubygems.org'\n"
+
+# Add pg and puma gem
+gem 'pg'
 gem 'puma'
-gem 'rails_12factor'
 
-#DEVISE
-if get(set_color 'Would you like to use Devise and Figaro?',:magenta)
-  gem 'figaro'
-  gem 'devise'
-  after_bundle do
-    puts(set_color 'Installing Figaro', :blue, :bold )
-    run('figaro install')
-
-    puts(set_color 'Installing Devise', :blue, :bold )
-    generate('devise:install')
-
-    puts(set_color 'Installing Devise Views', :blue, :bold )
-    generate('devise:views')
-  end
-
-  if get(set_color 'Would you like to use CanCanCan or Pundit?',:magenta)
-    if yes?('Use CanCanCan?')
-      gem 'cancancan', '~> 1.10'
-    else
-      gem 'pundit'
-    end
-  end
+gem_group :production do
+  gem 'rails_12factor'
 end
 
-
-#PROCFILE
-puts(set_color 'Creating Procfile', :blue, :bold )
-file 'Procfile',<<-CODE
-  web: bundle exec puma -t 5:5 -p ${PORT:-3000} -e ${RACK_ENV:-development}
-CODE
-
-#FAKER
-gem_group :test, :development do
+# PRY & FAKER
+gem_group :development, :test do
+  gem 'pry' if yes?("Do you want to use Pry? ")
   gem 'faker'
 end
 
-#BOURBON
-if get(set_color 'Would you like some Bourbon?', :magenta)
-    gem 'bourbon'
+#README DOC
+run "rm README.rdoc"
+run "touch README.md"
+
+
+if yes?("Do you want some Bourbon, Neat & Bitters? ")
+  gem 'bourbon'
     gem 'neat'
     gem 'bitters'
 
@@ -93,6 +72,43 @@ if get(set_color 'Would you like some Bourbon?', :magenta)
   end
 end
 
+# REACT
+if yes?("Do you want to use React? ")
+  gem 'react-rails'
+  run 'rails g react:install'
+end
+
+# BCRYPT
+if yes?("Do you want to use bcrypt? ")
+  gem 'bcrypt'
+end
+
+
+#DEVISE
+if get(set_color 'Would you like to use Devise and Figaro?',:magenta)
+  gem 'figaro'
+  gem 'devise'
+  after_bundle do
+    puts(set_color 'Installing Figaro', :blue, :bold )
+    run('figaro install')
+
+    puts(set_color 'Installing Devise', :blue, :bold )
+    generate('devise:install')
+
+    puts(set_color 'Installing Devise Views', :blue, :bold )
+    generate('devise:views')
+  end
+
+  if get(set_color 'Would you like to use CanCanCan or Pundit?',:magenta)
+    if yes?('Use CanCanCan?')
+      gem 'cancancan', '~> 1.10'
+    else
+      gem 'pundit'
+    end
+  end
+end
+
+
 #BUNDLE INSTALL
 after_bundle do
   if get(set_color 'Would you like to create a new git repo and add everything to it?', :magenta)
@@ -114,20 +130,6 @@ after_bundle do
     end
   end
 
-
-  puts(set_color 'Stopping Spring', :blue, :bold )
-  run('spring stop')
-
-  puts(set_color 'Installing Rspec', :blue, :bold )
-  generate('rspec:install')
-
-  puts(set_color'Injecting Simplecov', :blue, :bold )
-  inject_into_file "spec/spec_helper.rb", after: "# See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration\n" do
-    <<-CODE
-    require 'simplecov'
-    SimpleCov.start
-    CODE
-  end
 
   puts(set_color'Running `rake db:test:prepare`',:blue,:bold)
   run('rake db:test:prepare')
