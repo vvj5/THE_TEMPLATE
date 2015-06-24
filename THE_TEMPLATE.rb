@@ -72,32 +72,6 @@ insert_into_file "Gemfile", "ruby '#{ruby_version}'", :after => "source 'https:/
     gem 'bcrypt'
   end
 
-
-  #DEVISE
-  if get(set_color 'Would you like to use Devise and Figaro?',:magenta)
-    gem 'figaro'
-    gem 'devise'
-    after_bundle do
-      puts(set_color 'Installing Figaro', :blue, :bold )
-      run('figaro install')
-
-      puts(set_color 'Installing Devise', :blue, :bold )
-      generate('devise:install')
-
-      puts(set_color 'Installing Devise Views', :blue, :bold )
-      generate('devise:views')
-    end
-
-    if get(set_color 'Would you like to use CanCanCan or Pundit?',:magenta)
-      if yes?('Use CanCanCan?')
-        gem 'cancancan', '~> 1.10'
-      else
-        gem 'pundit'
-      end
-    end
-  end
-
-
   #BUNDLE INSTALL
   after_bundle do
     if get(set_color 'Would you like to create a new git repo and add everything to it?', :magenta)
