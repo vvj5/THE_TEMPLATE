@@ -140,7 +140,7 @@ insert_into_file "Gemfile", "ruby '#{ruby_version}'", :after => "source 'https:/
   end
 
 
-  rake('db:create') if get(set_color 'Would you like to create your db with `rake db:create`', :magenta)
+if get(set_color 'Would you like to create your db with `rake db:create`', :magenta)
   yes?(set_color 'Remember to declare your ruby version in your gem file.', :red,  :bold)
   yes?(set_color 'If using cancancan, you need to run the `rails g cancan:ability`command.', :red, :bold)
   yes?(set_color 'If using pundit, you need to put `include Pundit` in your ApplicationController.',:red, :bold)
@@ -149,4 +149,3 @@ insert_into_file "Gemfile", "ruby '#{ruby_version}'", :after => "source 'https:/
   yes?(set_color 'I installed most of paperclip, you still need to add `has_attached_file` to your model', :red, :bold)
   yes?(set_color 'Complete! Your new rails app is finished and ready to go!', :red, :bold)
 end
-
