@@ -28,11 +28,6 @@ insert_into_file "Gemfile", "ruby '#{ruby_version}'", :after => "source 'https:/
       gem 'neat'
       gem 'bitters'
 
-      if get(set_color 'Would you like to use Simple Form?', :magenta)
-        gem 'simple_form'
-        generate('simple_form:install')
-      end
-
       puts(set_color 'Creating application.scss', :blue, :bold)
 
       file 'app/assets/stylesheets/application.scss', <<-CODE
