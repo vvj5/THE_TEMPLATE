@@ -23,7 +23,6 @@ end
 
 #PAGINATE
   gem 'will_paginate', '~> 3.0.7'
-end
 
 #README
   run "rm README.rdoc"
