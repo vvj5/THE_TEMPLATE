@@ -12,59 +12,27 @@ insert_into_file "Gemfile", "ruby '#{ruby_version}'", :after => "source 'https:/
   gem 'puma'
 
 #RAILS 12 FACTOR
-  gem_group :production do
-    gem 'rails_12factor'
-  end
+gem_group :production do
+  gem 'rails_12factor'
+end
 
 #FAKER
-  gem_group :development, :test do
-    gem 'faker'
-  end
+gem_group :development, :test do
+  gem 'faker'
+end
+
+#PAGINATE
+  gem 'will_paginate', '~> 3.0.7'
+end
 
 #README
   run "rm README.rdoc"
   run "touch README.md"
 
-#BOURBON
-  if yes?("Do you want some Bourbon, Neat & Bitters? ")
-      gem 'bourbon'
-      gem 'neat'
-      gem 'bitters'
-
-      puts(set_color 'Creating application.scss', :blue, :bold)
-
-      file 'app/assets/stylesheets/application.scss', <<-CODE
-      @import 'bourbon';
-      @import 'base/base';
-      @import 'neat';
-      CODE
-
-      puts(set_color 'Removing old application.css', :blue, :bold)
-
-      run('rm app/assets/stylesheets/application.css')
-
-      puts(set_color 'Installing Bitters library', :blue, :bold )
-
-      inside('app/assets/stylesheets') do
-        run('bitters install')
-      end
-
-      puts(set_color 'Removing old _base.scss', :blue, :bold )
-
-      run('rm app/assets/stylesheets/base/_base.scss')
-
-      puts(set_color 'Creating _base.scss', :blue, :bold )
-
-      file 'app/assets/stylesheets/base/_base.scss', <<-CODE
-      @import "variables";
-      @import "grid-settings";
-      @import "buttons";
-      @import "forms";
-      @import "lists";
-      @import "tables";
-      @import "typography";
-      CODE
-    end
+#MATERIALIZE
+  if yes?("Do you want to use Materialize CSS? ")
+      gem 'materialize-sass'
+  end
 
 #REACT
   if yes?("Do you want to use React? ")
